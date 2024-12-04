@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:57:31 by okhourss          #+#    #+#             */
-/*   Updated: 2024/12/03 15:49:57 by okhourss         ###   ########.fr       */
+/*   Updated: 2024/12/04 16:07:47 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 size_t	ft_strlen(const char *s)
 {
-	int	len;
+	size_t	len;
 
 	if (!s)
 		return (0);
@@ -39,31 +39,35 @@ char	*ft_strdup(const char *s)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int		i;
-	int		j;
+	size_t	j;
 	char	*new_str;
 
 	if (!s1 || !s2)
+	{
+		free(s1);
 		return (NULL);
+	}
 	new_str = malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!new_str)
+	{
+		free(s1);
 		return (NULL);
+	}
 	ft_strcpy(new_str, s1);
-	i = ft_strlen(s1);
 	j = 0;
 	while (s2[j])
 	{
-		new_str[i + j] = s2[j];
+		new_str[ft_strlen(s1) + j] = s2[j];
 		j++;
 	}
-	new_str[i + j] = '\0';
+	new_str[ft_strlen(s1) + j] = '\0';
 	free(s1);
 	return (new_str);
 }
 
 char	*ft_strchr(const char *s, int c)
 {
-	int	i;
+	size_t	i;
 
 	if (!s)
 		return (NULL);
@@ -81,7 +85,7 @@ char	*ft_strchr(const char *s, int c)
 
 char	*ft_strcpy(char *dest, const char *src)
 {
-	int	i;
+	size_t	i;
 
 	if (!dest || !src)
 		return (NULL);
