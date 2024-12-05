@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 13:08:32 by okhourss          #+#    #+#             */
-/*   Updated: 2024/12/03 16:02:09 by okhourss         ###   ########.fr       */
+/*   Updated: 2024/12/05 17:15:28 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ char	*get_next_line(int fd)
 	static char	*saved_data[MAXIMUM_FD];
 	char		*read_buffer;
 	char		*line_to_return;
+	size_t		size;
 
 	line_to_return = NULL;
-	read_buffer = malloc(BUFFER_SIZE + 1);
+	size = (size_t)BUFFER_SIZE + 1;
+	read_buffer = malloc(size);
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (free_resources(&saved_data[fd], &read_buffer));
 	if (!read_buffer)
@@ -58,11 +60,12 @@ char	*read_and_store(int fd, char *saved_data, char *read_buffer)
 		if (bytes_read == -1)
 		{
 			free(read_buffer);
+			free(saved_data);
 			return (NULL);
 		}
 		read_buffer[bytes_read] = '\0';
 		saved_data = ft_strjoin(saved_data, read_buffer);
-		if (ft_strchr(read_buffer, '\n'))
+		if (ft_strchr(read_buffer, '\n') || !saved_data)
 			break ;
 	}
 	free(read_buffer);
@@ -71,8 +74,8 @@ char	*read_and_store(int fd, char *saved_data, char *read_buffer)
 
 char	*extract_line_to_return(char *saved_data, char *line_to_return)
 {
-	int	len;
-	int	i;
+	size_t	len;
+	size_t	i;
 
 	if (!saved_data)
 		return (NULL);
@@ -96,7 +99,7 @@ char	*extract_line_to_return(char *saved_data, char *line_to_return)
 
 char	*trim_saved_data(char *saved_data)
 {
-	int		len;
+	size_t	len;
 	char	*trimmed_str;
 
 	if (!saved_data)
@@ -104,7 +107,7 @@ char	*trim_saved_data(char *saved_data)
 	len = 0;
 	while (saved_data[len] != '\n' && saved_data[len])
 		len++;
-	if (saved_data[len])
+	if (saved_data[len] == '\n')
 		len++;
 	if (!saved_data[len])
 	{

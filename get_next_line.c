@@ -6,7 +6,7 @@
 /*   By: okhourss <okhourss@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 10:00:00 by okhourss          #+#    #+#             */
-/*   Updated: 2024/12/04 16:33:59 by okhourss         ###   ########.fr       */
+/*   Updated: 2024/12/05 10:26:21 by okhourss         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*read_and_store(int fd, char *saved_data, char *read_buffer)
 		}
 		read_buffer[bytes_read] = '\0';
 		saved_data = ft_strjoin(saved_data, read_buffer);
-		if (ft_strchr(read_buffer, '\n') || !saved_data) // added 
+		if (ft_strchr(read_buffer, '\n') || !saved_data)
 			break ;
 	}
 	free(read_buffer);
